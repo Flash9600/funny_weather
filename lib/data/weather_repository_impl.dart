@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 
 import 'models/weather_response_model.dart';
@@ -10,14 +8,13 @@ const String domain = 'http://api.weatherapi.com';
 
 final _options = BaseOptions(
   baseUrl: domain,
-  connectTimeout: Duration(seconds: 10),
-  receiveTimeout: Duration(seconds: 30),
+  connectTimeout: const Duration(seconds: 10),
+  receiveTimeout: const Duration(seconds: 30),
   headers: {'key': _apiKey},
   queryParameters: {'lang': 'ru'},
 );
 
 class WeatherServiceImpl {
-
   final Dio _dioClient = Dio(_options);
 
   Future<WeatherResponseModel?> fetchCurrentWeather(String location) async {
@@ -34,6 +31,5 @@ class WeatherServiceImpl {
     } catch (e) {
       throw Exception('fetchCurrentWeather error: $e');
     }
-
   }
 }
