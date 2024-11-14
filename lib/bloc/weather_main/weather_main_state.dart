@@ -1,0 +1,1 @@
+part of 'weather_main_cubit.dart';class WeatherMainState {  const WeatherMainState({    this.location,    this.currentTemperature,  });  final String? location;  final int? currentTemperature;}
