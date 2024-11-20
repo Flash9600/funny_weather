@@ -1,27 +1,21 @@
-import 'package:dio/dio.dart';
+import 'package:weather_app/bloc/repositories/weather_repository.dart';
+import 'package:weather_app/data/models/weather_response_model.dart';
+import 'package:weather_app/services/network_service.dart';
 
-import 'models/weather_response_model.dart';
+final class WeatherRepositoryImpl implements WeatherRepository {
+  WeatherRepositoryImpl(this.networkService);
 
-const _apiKey = '0bd0ce830a6f4ebba62125350243101';
+  final WeatherNetworkService networkService;
 
-const String domain = 'http://api.weatherapi.com';
-
-final _options = BaseOptions(
-  baseUrl: domain,
-  connectTimeout: const Duration(seconds: 10),
-  receiveTimeout: const Duration(seconds: 30),
-  headers: {'key': _apiKey},
-  queryParameters: {'lang': 'ru'},
-);
-
-class WeatherServiceImpl {
-  final Dio _dioClient = Dio(_options);
-
+  @override
   Future<WeatherResponseModel?> fetchCurrentWeather(String location) async {
     try {
-      final response = await _dioClient.get('/v1/current.json', queryParameters: {
-        'q': location,
-      });
+      final response = await networkService.get(
+        '/v1/current.json',
+        queryParameters: {
+          'q': location,
+        },
+      );
 
       if (response.statusCode == 200) {
         return WeatherResponseModel.fromJson(response.data);
