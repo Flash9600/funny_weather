@@ -1,0 +1,1 @@
+import 'package:geolocator/geolocator.dart';extension PositionExtension on Position {  String get weatherApiFormat => '$latitude,$longitude';}
