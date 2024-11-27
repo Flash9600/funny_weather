@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/bloc/home_screen_widget/home_screen_widget_cubit.dart';
 import 'package:weather_app/bloc/weather_main/weather_main_cubit.dart';
 
 class MainPage extends StatefulWidget {
@@ -15,11 +16,10 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Weather'),
-      ),
-      body: BlocBuilder<MicroBettingTimerCubit, WeatherMainState>(
+      body: BlocConsumer<MicroBettingTimerCubit, WeatherMainState>(
+        listener: (context, state) => context
+            .read<HomeScreenWidgetCubit>()
+            .sendDataToWidget(currentTemperature: state.currentTemperature, location: state.location),
         builder: (context, state) {
           return Center(
             child: state.loading

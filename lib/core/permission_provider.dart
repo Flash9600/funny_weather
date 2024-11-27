@@ -2,8 +2,8 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 
-final class PermissionService {
-  PermissionService(this._geolocatorService);
+final class PermissionProvider {
+  PermissionProvider(this._geolocatorService);
 
   final GeolocatorPlatform _geolocatorService;
 

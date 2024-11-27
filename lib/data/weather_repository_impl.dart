@@ -1,11 +1,11 @@
 import 'package:weather_app/bloc/repositories/weather_repository.dart';
 import 'package:weather_app/data/models/weather_response_model.dart';
-import 'package:weather_app/services/network_service.dart';
+import 'package:weather_app/core/network_provider.dart';
 
 final class WeatherRepositoryImpl implements WeatherRepository {
   WeatherRepositoryImpl(this.networkService);
 
-  final WeatherNetworkService networkService;
+  final WeatherNetworkProvider networkService;
 
   @override
   Future<WeatherResponseModel?> fetchCurrentWeather(String location) async {

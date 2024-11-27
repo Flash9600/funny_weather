@@ -1,40 +1,39 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/bloc/repositories/weather_repository.dart';
-import 'package:weather_app/services/permission_service.dart';
+import 'package:weather_app/core/permission_provider.dart';
 import 'package:weather_app/utils/extensions/geolocation_extension.dart';
 
 part 'weather_main_state.dart';
 
+/// Factory cubit, use on the [MainPage].
 class MicroBettingTimerCubit extends Cubit<WeatherMainState> {
   MicroBettingTimerCubit({
     required WeatherRepository weatherRepository,
-    required GeolocatorPlatform geolocatorService,
-    required PermissionService permissionService,
+    required GeolocatorPlatform geolocatorProvider,
+    required PermissionProvider permissionProvider,
   })  : _weatherRepository = weatherRepository,
-        _geolocatorService = geolocatorService,
-        _permissionService = permissionService,
+        _geolocatorProvider = geolocatorProvider,
+        _permissionProvider = permissionProvider,
         super(const WeatherMainState()) {
     init();
   }
 
   final WeatherRepository _weatherRepository;
 
-  final GeolocatorPlatform _geolocatorService;
+  final GeolocatorPlatform _geolocatorProvider;
 
-  final PermissionService _permissionService;
+  final PermissionProvider _permissionProvider;
 
   FutureOr<void> init() async {
     emit(state.copyWith(loading: true));
     final (position, error) = await _getCurrentPosition();
 
     if (error != null) {
-
-    // TODO(I): handle errors
+      // TODO(I): handle errors
     }
 
     if (position != null) {
@@ -54,14 +53,14 @@ class MicroBettingTimerCubit extends Cubit<WeatherMainState> {
   }
 
   Future<(Position? position, String? error)> _getCurrentPosition() async {
-    final hasPermission = await _permissionService.handleGeolocaitonPermission();
+    final hasPermission = await _permissionProvider.handleGeolocaitonPermission();
 
     if (!hasPermission) {
       return (null, 'Permission not obtained');
     }
 
     try {
-      return (await _geolocatorService.getCurrentPosition(), null);
+      return (await _geolocatorProvider.getCurrentPosition(), null);
     } catch (e) {
       return (null, e.toString());
     }

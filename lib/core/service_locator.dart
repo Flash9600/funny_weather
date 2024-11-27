@@ -1,10 +1,11 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
+import 'package:weather_app/bloc/home_screen_widget/home_screen_widget_cubit.dart';
 import 'package:weather_app/bloc/repositories/weather_repository.dart';
 import 'package:weather_app/bloc/weather_main/weather_main_cubit.dart';
+import 'package:weather_app/core/network_provider.dart';
+import 'package:weather_app/core/permission_provider.dart';
 import 'package:weather_app/data/weather_repository_impl.dart';
-import 'package:weather_app/services/network_service.dart';
-import 'package:weather_app/services/permission_service.dart';
 
 final class ServiceLocator {
   ServiceLocator._internal() {
@@ -35,19 +36,20 @@ final class ServiceLocator {
   }
 
   void _registerSingleton() {
-    _getIt.registerSingleton<WeatherNetworkService>(WeatherNetworkService());
+    _getIt.registerSingleton<WeatherNetworkProvider>(WeatherNetworkProvider());
     _getIt.registerSingleton<WeatherRepository>(WeatherRepositoryImpl(_getIt.get()));
     _getIt.registerSingleton<GeolocatorPlatform>(GeolocatorPlatform.instance);
-    _getIt.registerSingleton<PermissionService>(PermissionService(_getIt.get()));
+    _getIt.registerSingleton<PermissionProvider>(PermissionProvider(_getIt.get()));
   }
 
   void _registerFactory() {
     _getIt.registerFactory<MicroBettingTimerCubit>(
       () => MicroBettingTimerCubit(
         weatherRepository: _getIt.get(),
-        geolocatorService: _getIt.get(),
-        permissionService: _getIt.get(),
+        geolocatorProvider: _getIt.get(),
+        permissionProvider: _getIt.get(),
       ),
     );
+     _getIt.registerFactory<HomeScreenWidgetCubit>(() => HomeScreenWidgetCubit());
   }
 }
