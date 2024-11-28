@@ -12,8 +12,12 @@ class EntryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<MicroBettingTimerCubit>(create: (_) => ServiceLocator().get<MicroBettingTimerCubit>(),),
-        BlocProvider<HomeScreenWidgetCubit>(create: (_) => ServiceLocator().get<HomeScreenWidgetCubit>(),),
+        BlocProvider<WeatherMainCubit>(
+          create: (_) => ServiceLocator().get<WeatherMainCubit>(),
+        ),
+        BlocProvider<HomeScreenWidgetCubit>(
+          create: (_) => ServiceLocator().get<HomeScreenWidgetCubit>(),
+        ),
       ],
       child: MaterialApp(
         title: 'Funny weather',

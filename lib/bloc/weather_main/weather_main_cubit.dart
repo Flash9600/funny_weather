@@ -5,13 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/bloc/repositories/weather_repository.dart';
 import 'package:weather_app/core/permission_provider.dart';
+import 'package:weather_app/models/main_weather_model.dart';
+import 'package:weather_app/presentation/main_page.dart';
 import 'package:weather_app/utils/extensions/geolocation_extension.dart';
 
 part 'weather_main_state.dart';
 
 /// Factory cubit, use on the [MainPage].
-class MicroBettingTimerCubit extends Cubit<WeatherMainState> {
-  MicroBettingTimerCubit({
+class WeatherMainCubit extends Cubit<WeatherMainState> {
+  WeatherMainCubit({
     required WeatherRepository weatherRepository,
     required GeolocatorPlatform geolocatorProvider,
     required PermissionProvider permissionProvider,
@@ -42,8 +44,7 @@ class MicroBettingTimerCubit extends Cubit<WeatherMainState> {
       if (weatherResult != null) {
         emit(
           WeatherMainState(
-            location: weatherResult.location.name,
-            currentTemperature: weatherResult.current.temp_c,
+            weatherModel: weatherResult.toWeatherModel,
           ),
         );
       }

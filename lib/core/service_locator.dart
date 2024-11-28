@@ -43,13 +43,13 @@ final class ServiceLocator {
   }
 
   void _registerFactory() {
-    _getIt.registerFactory<MicroBettingTimerCubit>(
-      () => MicroBettingTimerCubit(
+    _getIt.registerFactory<WeatherMainCubit>(
+      () => WeatherMainCubit(
         weatherRepository: _getIt.get(),
         geolocatorProvider: _getIt.get(),
         permissionProvider: _getIt.get(),
       ),
     );
-     _getIt.registerFactory<HomeScreenWidgetCubit>(() => HomeScreenWidgetCubit());
+    _getIt.registerFactory<HomeScreenWidgetCubit>(() => HomeScreenWidgetCubit());
   }
 }

@@ -4,22 +4,18 @@ part of 'weather_main_cubit.dart';
 class WeatherMainState {
   const WeatherMainState({
     this.loading = false,
-    this.location,
-    this.currentTemperature,
+    this.weatherModel,
   });
 
-  final String? location;
   final bool loading;
-  final double? currentTemperature;
+  final MainWeatherModel? weatherModel;
 
   WeatherMainState copyWith({
     bool? loading,
-    String? location,
-    double? currentTemperature,
+    MainWeatherModel? weatherModel,
   }) =>
       WeatherMainState(
         loading: loading ?? this.loading,
-        location: location ?? this.location,
-        currentTemperature: currentTemperature ?? this.currentTemperature,
+        weatherModel: weatherModel ?? this.weatherModel,
       );
 }

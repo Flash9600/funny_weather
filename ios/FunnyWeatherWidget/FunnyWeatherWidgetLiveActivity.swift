@@ -1,10 +1,3 @@
-//
-//  FunnyWeatherWidgetLiveActivity.swift
-//  FunnyWeatherWidget
-//
-//  Created by user on 25.11.2024.
-//
-
 import ActivityKit
 import WidgetKit
 import SwiftUI

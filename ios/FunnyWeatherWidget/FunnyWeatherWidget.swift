@@ -1,42 +1,43 @@
-//
-//  FunnyWeatherWidget.swift
-//  FunnyWeatherWidget
-//
-//  Created by user on 25.11.2024.
-//
-
 import WidgetKit
 import SwiftUI
 
+private let appGroupId : String = "group.FunnyWeatherWidget";
+private let defaultLocation = "Moscow, Russia";
+private let defaultTemperature = "20°";
+
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+        SimpleEntry(location: defaultLocation, currentTemperature: defaultTemperature, date: Date())
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
-        completion(entry)
+        let entry: SimpleEntry
+        
+        if context.isPreview{
+               entry = placeholder(in: context)
+             }
+             else {
+                 let userDefaults = UserDefaults(suiteName: appGroupId)
+               let location = userDefaults?.string(forKey: "location") ?? "No location set"
+               let temperature = userDefaults?.string(forKey: "temperature") ?? "No temperature set"
+               entry = SimpleEntry(location: location, currentTemperature: temperature, date: Date())
+             }
+        
+               completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
+        getSnapshot(in: context) { (entry) in
+                let timeline = Timeline(entries: [entry], policy: .atEnd)
+                          completion(timeline)
+                      }
     }
 }
 
 struct SimpleEntry: TimelineEntry {
+    let location: String
+    let currentTemperature: String
     let date: Date
-    let emoji: String
 }
 
 struct FunnyWeatherWidgetEntryView : View {
@@ -44,11 +45,11 @@ struct FunnyWeatherWidgetEntryView : View {
 
     var body: some View {
         VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
+            Text(entry.location)
+            Text(entry.currentTemperature)
+            
+            Text("last update:")
+            Text(entry.date.formatted(date: .omitted, time: .omitted)).textScale(Text.Scale.secondary)
         }
     }
 }
@@ -75,6 +76,5 @@ struct FunnyWeatherWidget: Widget {
 #Preview(as: .systemSmall) {
     FunnyWeatherWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+    SimpleEntry(location: defaultLocation, currentTemperature: defaultTemperature, date: .now)
 }

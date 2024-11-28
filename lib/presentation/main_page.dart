@@ -16,10 +16,21 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<MicroBettingTimerCubit, WeatherMainState>(
-        listener: (context, state) => context
-            .read<HomeScreenWidgetCubit>()
-            .sendDataToWidget(currentTemperature: state.currentTemperature, location: state.location),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final weatherModel = context.read<WeatherMainCubit>().state.weatherModel;
+          if (weatherModel != null) {
+            context.read<HomeScreenWidgetCubit>().sendDataToWidget(weatherModel);
+          }
+        },
+      ),
+      body: BlocConsumer<WeatherMainCubit, WeatherMainState>(
+        listener: (context, state) {
+          final weatherModel = state.weatherModel;
+          if (weatherModel != null) {
+            context.read<HomeScreenWidgetCubit>().sendDataToWidget(weatherModel);
+          }
+        },
         builder: (context, state) {
           return Center(
             child: state.loading
@@ -28,11 +39,11 @@ class _MainPageState extends State<MainPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Weather in ${state.location}',
+                        'Weather in ${state.weatherModel?.location}',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       Text(
-                        '${state.currentTemperature}',
+                        '${state.weatherModel?.currentTemperature}',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ],

@@ -1,10 +1,3 @@
-//
-//  FunnyWeatherWidgetBundle.swift
-//  FunnyWeatherWidget
-//
-//  Created by user on 25.11.2024.
-//
-
 import WidgetKit
 import SwiftUI
 
