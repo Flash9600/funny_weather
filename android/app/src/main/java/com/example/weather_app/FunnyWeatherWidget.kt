@@ -3,11 +3,11 @@ package com.example.weather_app
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.util.SizeF
 import android.widget.RemoteViews
+import es.antonborri.home_widget.HomeWidgetPlugin
 
-/**
- * Implementation of App Widget functionality.
- */
+
 class FunnyWeatherWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         // There may be multiple widgets active, so update all of them
@@ -26,11 +26,15 @@ class FunnyWeatherWidget : AppWidgetProvider() {
 }
 
 internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-    val widgetText = context.getString(R.string.appwidget_text)
-    // Construct the RemoteViews object
-    val views = RemoteViews(context.packageName, R.layout.funny_weather_widget)
-    views.setTextViewText(R.id.appwidget_text, widgetText)
 
-    // Instruct the widget manager to update the widget
+    val widgetData = HomeWidgetPlugin.getData(context)
+    val location = widgetData.getString("location", null)
+    val temperature = widgetData.getString("temperature", null)
+
+    val views = RemoteViews(context.packageName, R.layout.funny_weather_widget).apply { 
+        setTextViewText(R.id.location_text, location)
+        setTextViewText(R.id.temperature_text, temperature)
+    }
+
     appWidgetManager.updateAppWidget(appWidgetId, views)
 }
