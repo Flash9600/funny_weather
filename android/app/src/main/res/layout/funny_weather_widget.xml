@@ -7,41 +7,38 @@
 
     <TextView
         android:id="@+id/location_text"
-        style="@style/Widget.AppCompat.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:contentDescription="@string/location"
         android:textAlignment="center"
+        android:text="@string/defaultLocation"
         android:textSize="14sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/temperature_text"
-        style="@style/Widget.AppCompat.TextView.SpinnerItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_text"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="42dp"
         android:contentDescription="@string/temperature"
-        android:textSize="16sp"
+        android:text="@string/defaultTemperature"
+        android:textSize="42sp"
         android:textStyle="bold|italic" />
 
     <TextView
         android:id="@+id/date_text"
-        style="@style/Widget.AppCompat.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp"
         android:contentDescription="@string/date"
-        android:textSize="8sp"
-        />
+        android:textAlignment="center"
+        android:text="@string/defaultTime"
+        android:textSize="11sp" />
 
 </RelativeLayout>

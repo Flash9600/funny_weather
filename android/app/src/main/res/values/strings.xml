@@ -5,4 +5,7 @@
     <string name="location">Location</string>
     <string name="temperature">current temperature</string>
     <string name="date">last update date</string>
+    <string name="defaultLocation">Moscow</string>
+    <string name="defaultTemperature">20°</string>
+    <string name="defaultTime">01.01.2024 12:00</string>
 </resources>
