@@ -13,6 +13,7 @@ final _options = BaseOptions(
 
 final class WeatherNetworkProvider {
   final Dio _dioClient = Dio(_options);
+
   Future<Response<T>> get<T>(
     String path, {
     Object? data,

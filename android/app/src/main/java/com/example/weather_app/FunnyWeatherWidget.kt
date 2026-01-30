@@ -3,6 +3,7 @@ package com.example.weather_app
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.os.Build
 import android.util.SizeF
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetPlugin
@@ -31,10 +32,26 @@ internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManage
     val location = widgetData.getString("location", null)
     val temperature = widgetData.getString("temperature", null)
 
-    val views = RemoteViews(context.packageName, R.layout.funny_weather_widget).apply { 
-        setTextViewText(R.id.location_text, location)
-        setTextViewText(R.id.temperature_text, temperature)
+    val views = RemoteViews(context.packageName, R.layout.funny_weather_widget)
+    views.setTextViewText(R.id.location_text, location)
+    views.setTextViewText(R.id.temperature_text, temperature)
+
+
+    val smallView = views
+    val tallView = views
+    val wideView = views
+
+    val viewMapping: Map<SizeF, RemoteViews> = mapOf(
+        SizeF(110f, 110f) to smallView,
+        SizeF(110f, 250f) to tallView,
+        SizeF(1100f, 350f) to wideView
+    )
+
+    val remoteViews : RemoteViews = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        RemoteViews(viewMapping)
+    } else {
+        views
     }
 
-    appWidgetManager.updateAppWidget(appWidgetId, views)
+    appWidgetManager.updateAppWidget(appWidgetId, remoteViews)
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/bloc/home_screen_widget/home_screen_widget_cubit.dart';
-import 'package:weather_app/bloc/weather_main/weather_main_cubit.dart';
+import 'package:weather_app/presentation/bloc/home_screen_widget/home_screen_widget_cubit.dart';
+import 'package:weather_app/presentation/bloc/weather_main/weather_main_cubit.dart';
 import 'package:weather_app/core/service_locator.dart';
 import 'package:weather_app/presentation/main_page.dart';
 

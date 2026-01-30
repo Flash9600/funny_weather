@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/bloc/repositories/weather_repository.dart';
+import 'package:weather_app/presentation/bloc/repositories/weather_repository.dart';
 import 'package:weather_app/core/permission_provider.dart';
 import 'package:weather_app/models/main_weather_model.dart';
 import 'package:weather_app/presentation/main_page.dart';
@@ -21,7 +21,7 @@ class WeatherMainCubit extends Cubit<WeatherMainState> {
         _geolocatorProvider = geolocatorProvider,
         _permissionProvider = permissionProvider,
         super(const WeatherMainState()) {
-    init();
+    _init();
   }
 
   final WeatherRepository _weatherRepository;
@@ -30,26 +30,35 @@ class WeatherMainCubit extends Cubit<WeatherMainState> {
 
   final PermissionProvider _permissionProvider;
 
-  FutureOr<void> init() async {
+  FutureOr<void> _init() async {
     emit(state.copyWith(loading: true));
+    await updateWeaher();
+  }
+
+  Future<void> updateWeaher() async {
     final (position, error) = await _getCurrentPosition();
 
     if (error != null) {
-      // TODO(I): handle errors
-    }
-
-    if (position != null) {
-      // TODO(I): handle errors
-      final weatherResult = await _weatherRepository.fetchCurrentWeather(position.weatherApiFormat);
-      if (weatherResult != null) {
+      emit(
+        WeatherMainState(
+          errorMessage: error,
+        ),
+      );
+    } else if (position != null) {
+      final (result: result, error: error) = await _weatherRepository.fetchCurrentWeather(position.weatherApiFormat);
+      if (result != null) {
         emit(
           WeatherMainState(
-            weatherModel: weatherResult.toWeatherModel,
+            weatherModel: result.toWeatherModel,
+          ),
+        );
+      } else if (error != null) {
+        emit(
+          WeatherMainState(
+            errorMessage: error,
           ),
         );
       }
-
-      return;
     }
   }
 

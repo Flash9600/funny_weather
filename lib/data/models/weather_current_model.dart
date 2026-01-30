@@ -5,7 +5,7 @@ part 'weather_current_model.g.dart';
 
 @JsonSerializable()
 class WeatherCurrentModel {
-  WeatherCurrentModel({
+  const WeatherCurrentModel({
     required this.temp_c,
     required this.condition,
     required this.wind_mph,

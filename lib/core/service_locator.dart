@@ -1,10 +1,11 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
-import 'package:weather_app/bloc/home_screen_widget/home_screen_widget_cubit.dart';
-import 'package:weather_app/bloc/repositories/weather_repository.dart';
-import 'package:weather_app/bloc/weather_main/weather_main_cubit.dart';
+import 'package:weather_app/presentation/bloc/home_screen_widget/home_screen_widget_cubit.dart';
+import 'package:weather_app/presentation/bloc/repositories/weather_repository.dart';
+import 'package:weather_app/presentation/bloc/weather_main/weather_main_cubit.dart';
 import 'package:weather_app/core/network_provider.dart';
 import 'package:weather_app/core/permission_provider.dart';
+import 'package:weather_app/data/weather_api_service.dart';
 import 'package:weather_app/data/weather_repository_impl.dart';
 
 final class ServiceLocator {
@@ -36,10 +37,11 @@ final class ServiceLocator {
   }
 
   void _registerSingleton() {
-    _getIt.registerSingleton<WeatherNetworkProvider>(WeatherNetworkProvider());
-    _getIt.registerSingleton<WeatherRepository>(WeatherRepositoryImpl(_getIt.get()));
-    _getIt.registerSingleton<GeolocatorPlatform>(GeolocatorPlatform.instance);
-    _getIt.registerSingleton<PermissionProvider>(PermissionProvider(_getIt.get()));
+    _getIt.registerLazySingleton<WeatherNetworkProvider>(() => WeatherNetworkProvider());
+    _getIt.registerLazySingleton<WeatherRepository>(() => WeatherRepositoryImpl(_getIt.get()));
+    _getIt.registerLazySingleton<GeolocatorPlatform>(() => GeolocatorPlatform.instance);
+    _getIt.registerLazySingleton<PermissionProvider>(() => PermissionProvider(_getIt.get()));
+    _getIt.registerLazySingleton<WeatherApiService>(() => WeatherApiService(_getIt.get()));
   }
 
   void _registerFactory() {
