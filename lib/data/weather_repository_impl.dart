@@ -1,29 +1,19 @@
-import 'package:weather_app/bloc/repositories/weather_repository.dart';
+import 'package:weather_app/presentation/bloc/repositories/weather_repository.dart';
 import 'package:weather_app/data/models/weather_response_model.dart';
-import 'package:weather_app/services/network_service.dart';
+import 'package:weather_app/data/weather_api_service.dart';
 
 final class WeatherRepositoryImpl implements WeatherRepository {
-  WeatherRepositoryImpl(this.networkService);
+  WeatherRepositoryImpl(this.weatherApiService);
 
-  final WeatherNetworkService networkService;
+  final WeatherApiService weatherApiService;
 
   @override
-  Future<WeatherResponseModel?> fetchCurrentWeather(String location) async {
+  Future<({WeatherResponseModel? result, String? error})> fetchCurrentWeather(String location) async {
     try {
-      final response = await networkService.get(
-        '/v1/current.json',
-        queryParameters: {
-          'q': location,
-        },
-      );
-
-      if (response.statusCode == 200) {
-        return WeatherResponseModel.fromJson(response.data);
-      } else {
-        throw Exception(response.statusMessage);
-      }
+      final result = await weatherApiService.fetchCurrentWeather(location);
+      return (result: result, error: null);
     } catch (e) {
-      throw Exception('fetchCurrentWeather error: $e');
+      return (result: null, error: e.toString());
     }
   }
 }

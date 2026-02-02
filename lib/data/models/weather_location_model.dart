@@ -4,6 +4,8 @@ part 'weather_location_model.g.dart';
 
 @JsonSerializable()
 class WeatherLocationModel {
+  factory WeatherLocationModel.fromJson(Map<String, dynamic> json) => _$WeatherLocationModelFromJson(json);
+
   WeatherLocationModel({
     required this.name,
     required this.region,
@@ -15,8 +17,6 @@ class WeatherLocationModel {
   final String region;
   final String country;
   final DateTime localtime;
-
-  factory WeatherLocationModel.fromJson(Map<String, dynamic> json) => _$WeatherLocationModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$WeatherLocationModelToJson(this);
 }

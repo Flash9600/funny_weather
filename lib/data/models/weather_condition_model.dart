@@ -10,7 +10,6 @@ class WeatherConditionModel {
     required this.code,
   });
 
-
   final String text;
   final String icon;
   final int code;

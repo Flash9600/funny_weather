@@ -1,24 +1,20 @@
-part of 'weather_main_cubit.dart';
+part of 'home_screen_widget_cubit.dart';
 
 @immutable
-class WeatherMainState {
-  const WeatherMainState({
-    this.loading = false,
+class HomeScreenWidgetState {
+  const HomeScreenWidgetState({
     this.location,
     this.currentTemperature,
   });
 
   final String? location;
-  final bool loading;
   final double? currentTemperature;
 
-  WeatherMainState copyWith({
-    bool? loading,
+  HomeScreenWidgetState copyWith({
     String? location,
     double? currentTemperature,
   }) =>
-      WeatherMainState(
-        loading: loading ?? this.loading,
+      HomeScreenWidgetState(
         location: location ?? this.location,
         currentTemperature: currentTemperature ?? this.currentTemperature,
       );
