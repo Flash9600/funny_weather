@@ -1,35 +1,19 @@
-import 'package:dio/dio.dart';
+import 'package:weather_app/presentation/bloc/repositories/weather_repository.dart';
+import 'package:weather_app/data/models/weather_response_model.dart';
+import 'package:weather_app/data/weather_api_service.dart';
 
-import 'models/weather_response_model.dart';
+final class WeatherRepositoryImpl implements WeatherRepository {
+  WeatherRepositoryImpl(this.weatherApiService);
 
-const _apiKey = '0bd0ce830a6f4ebba62125350243101';
+  final WeatherApiService weatherApiService;
 
-const String domain = 'http://api.weatherapi.com';
-
-final _options = BaseOptions(
-  baseUrl: domain,
-  connectTimeout: const Duration(seconds: 10),
-  receiveTimeout: const Duration(seconds: 30),
-  headers: {'key': _apiKey},
-  queryParameters: {'lang': 'ru'},
-);
-
-class WeatherServiceImpl {
-  final Dio _dioClient = Dio(_options);
-
-  Future<WeatherResponseModel?> fetchCurrentWeather(String location) async {
+  @override
+  Future<({WeatherResponseModel? result, String? error})> fetchCurrentWeather(String location) async {
     try {
-      final response = await _dioClient.get('/v1/current.json', queryParameters: {
-        'q': location,
-      });
-
-      if (response.statusCode == 200) {
-        return WeatherResponseModel.fromJson(response.data);
-      } else {
-        throw Exception(response.statusMessage);
-      }
+      final result = await weatherApiService.fetchCurrentWeather(location);
+      return (result: result, error: null);
     } catch (e) {
-      throw Exception('fetchCurrentWeather error: $e');
+      return (result: null, error: e.toString());
     }
   }
 }
