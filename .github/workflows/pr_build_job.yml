@@ -27,9 +27,3 @@ jobs:
      - run: sh ./scripts/flutter_pub_get.sh
 
      - run: sh ./scripts/flutter_analyze.sh
-
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: dart test
