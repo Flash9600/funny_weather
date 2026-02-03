@@ -2,9 +2,6 @@ name: pr_build_job
 run-name: PR of ${{ github.head_ref }} to ${{ github.base_ref }} by @${{ github.actor }}
 on:
   pull_request:
-    branches: 
-      - "feature**"
-      - "chore**"
     paths-ignore:
      - "docs/**"
      - "openapi/**"
