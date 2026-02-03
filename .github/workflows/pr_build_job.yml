@@ -25,3 +25,5 @@ jobs:
      - run: sh ./scripts/flutter_pub_get.sh
 
      - run: sh ./scripts/flutter_analyze.sh
+
+     - run: flutter build apk --debug
