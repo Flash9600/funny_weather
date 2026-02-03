@@ -1,0 +1,29 @@
+name: pr_build_job
+run-name: PR of ${{ github.head_ref }} to ${{ github.base_ref }} by @${{ github.actor }}
+on:
+  pull_request:
+    branches: 
+      - "feature**"
+      - "chore**"
+    paths-ignore:
+     - "docs/**"
+     - "openapi/**"
+     - ".vscode/**"
+
+jobs:
+  build:
+   runs-on: ubuntu-latest
+   
+   steps:
+     - uses: actions/setup-java@v1
+
+     - uses: subosito/flutter-action@v1
+       with:
+         channel: "stable"
+     - uses: actions/checkout@v1
+
+     - run: sh ./scripts/flutter_pub_get.sh
+
+     - run: sh ./scripts/flutter_analyze.sh
+
+     - run: flutter build apk --debug
