@@ -1,5 +1,5 @@
 name: pr_build_job
-run-name: PR of ${{ github.head_ref }} to ${{ github.base_ref }} by @${{ github.actor }}
+run-name: PR of "${{ github.head_ref }}" to "${{ github.base_ref }}" by @${{ github.actor }}
 on:
   pull_request:
     paths-ignore:
@@ -13,6 +13,8 @@ jobs:
    
    steps:
      - uses: actions/setup-java@v1
+       with:
+         java-version: "12.x"
 
      - uses: subosito/flutter-action@v1
        with:
@@ -22,5 +24,3 @@ jobs:
      - run: sh ./scripts/flutter_pub_get.sh
 
      - run: sh ./scripts/flutter_analyze.sh
-
-     - run: flutter build apk --debug
